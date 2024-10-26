@@ -31,7 +31,7 @@ app.makeFile = () => {
   });
 };
 
-// merapikan file berdasarkan ekstensi
+// Merapikan file berdasarkan ekstensi
 app.extSorter = () => {
   const sourceDir = path.join(__dirname, "unorganize_folder");
   fs.readdir(sourceDir, (err, files) => {
@@ -51,7 +51,7 @@ app.extSorter = () => {
   });
 };
 
-// membaca isi folder
+// Membaca isi folder
 app.readFolder = () => {
   rl.question("Masukkan nama folder yang ingin dibaca: ", (folderName) => {
     const dirPath = path.join(__dirname, folderName);
@@ -81,7 +81,7 @@ app.readFolder = () => {
   });
 };
 
-// membaca isi file
+// Membaca isi file
 app.readFile = () => {
   rl.question("Masukkan nama file yang ingin dibaca: ", (fileName) => {
     const filePath = path.join(__dirname, fileName);
