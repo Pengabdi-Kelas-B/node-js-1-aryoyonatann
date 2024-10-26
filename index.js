@@ -20,6 +20,6 @@ switch (command) {
     app.readFile();
     break;
   default:
-    console.error("Invalid command");
+    console.error("Invalid command!");
     break;
 }
