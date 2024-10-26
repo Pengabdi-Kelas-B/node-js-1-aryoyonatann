@@ -11,7 +11,7 @@ const app = {};
 
 // Membuat folder
 app.makeFolder = () => {
-  rl.question("Masukan Nama Folder: ", (folderName) => {
+  rl.question("Masukkan Nama Folder: ", (folderName) => {
     fs.mkdir(path.join(__dirname, folderName), (err) => {
       if (err) return console.error("Gagal membuat folder:", err);
       console.log("Folder berhasil dibuat:", folderName);
@@ -31,22 +31,39 @@ app.makeFile = () => {
   });
 };
 
-// Merapikan file berdasarkan ekstensi
+// Merapikan file berdasarkan kategori gambar atau teks
 app.extSorter = () => {
   const sourceDir = path.join(__dirname, "unorganize_folder");
+  const imageDir = path.join(__dirname, "image");
+  const textDir = path.join(__dirname, "text");
+
+  // Membuat folder jika belum ada
+  if (!fs.existsSync(imageDir)) fs.mkdirSync(imageDir);
+  if (!fs.existsSync(textDir)) fs.mkdirSync(textDir);
+
   fs.readdir(sourceDir, (err, files) => {
     if (err) return console.error("Gagal membaca folder:", err);
 
     files.forEach((file) => {
-      const ext = path.extname(file).substring(1); // Mendapatkan ekstensi file
-      const destDir = path.join(__dirname, ext);
+      const ext = path.extname(file).substring(1).toLowerCase(); // Mendapatkan ekstensi file dalam huruf kecil
+      const srcPath = path.join(sourceDir, file);
 
-      if (!fs.existsSync(destDir)) fs.mkdirSync(destDir);
-
-      fs.rename(path.join(sourceDir, file), path.join(destDir, file), (err) => {
-        if (err) console.error("Gagal memindahkan file:", err);
-        else console.log(`File ${file} berhasil dipindahkan ke folder ${ext}`);
-      });
+      // Memindahkan file ke folder yang sesuai
+      if (["jpg", "png"].includes(ext)) {
+        fs.rename(srcPath, path.join(imageDir, file), (err) => {
+          if (err) console.error("Gagal memindahkan file gambar:", err);
+          else console.log(`File ${file} berhasil dipindahkan ke folder image`);
+        });
+      } else if (["txt", "md"].includes(ext)) {
+        fs.rename(srcPath, path.join(textDir, file), (err) => {
+          if (err) console.error("Gagal memindahkan file teks:", err);
+          else console.log(`File ${file} berhasil dipindahkan ke folder text`);
+        });
+      } else {
+        console.log(
+          `File ${file} tidak dipindahkan karena tidak sesuai kategori.`
+        );
+      }
     });
   });
 };
