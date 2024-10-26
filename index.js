@@ -20,6 +20,6 @@ switch (command) {
     app.readFile();
     break;
   default:
-    console.error("Perintah tidak dikenali.");
+    console.error("Invalid Command!");
     break;
 }
